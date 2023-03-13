@@ -6,7 +6,7 @@ const applicationState = {
 
 const API = "http://localhost:8088" // assigns the website where the data is to a variable (API)
 // fetch the data
-export const fetchRequests = () => { 
+export const fetchRequests = () => {
     return fetch(`${API}/requests`) // returns a promise to tell you when it returns the information from the website
         .then(response => response.json()) // parses the .json encoded string data
         .then(
@@ -25,10 +25,10 @@ export const getRequests = () => {
 const mainContainer = document.querySelector("#container")
 
 // POST method means that we want the API to create something new
-    // GET - please give me this resource
-    // POST - please create something new
-    // PUT - please modify an existing resource
-    // DELETE - please delete an existing resource
+// GET - please give me this resource
+// POST - please create something new
+// PUT - please modify an existing resource
+// DELETE - please delete an existing resource
 export const sendRequest = (userPartyRequest) => {
     const fetchOptions = {
         method: "POST",
@@ -43,8 +43,8 @@ export const sendRequest = (userPartyRequest) => {
         .then(response => response.json())
         .then(
             () => { //We do NOT want to put a variable name in the parentheses
-               // Update your sendRequest() function's fetch call to dispatch the custom event after the POST operation has been completed.
-               mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
+                // Update your sendRequest() function's fetch call to dispatch the custom event after the POST operation has been completed.
+                mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
             })
 }
 
@@ -84,12 +84,12 @@ export const saveCompletion = (completion) => {
     }
 
     return fetch(`${API}/completions`, fetchOptions)
-    .then(response => response.json())
-    .then(
-        () => { //We do NOT want to put a variable name in the parentheses - if you don't need what comes back, you leave the variable blank
-           // Update your sendRequest() function's fetch call to dispatch the custom event after the POST operation has been completed.
-           mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
-        })
+        .then(response => response.json())
+        .then(
+            () => { //We do NOT want to put a variable name in the parentheses - if you don't need what comes back, you leave the variable blank
+                // Update your sendRequest() function's fetch call to dispatch the custom event after the POST operation has been completed.
+                mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
+            })
 
 }
 
@@ -106,4 +106,11 @@ export const fetchCompletions = () => {
 
 export const getCompletions = () => {
     return applicationState.completions.map(completion => ({ ...completion }))
+}
+
+export const getOpenRequests = () => {
+    let requests = getRequests()
+    let completions = getCompletions()
+    let filtered = requests.filter(r => completions.find(c => parseInt(c.requestId) !== r.id))
+    return filtered.map(item => ({ ...item }))
 }

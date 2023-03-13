@@ -1,41 +1,58 @@
-import { getRequests, deleteRequest, getClowns, saveCompletion, getCompletions } from "./dataAccess.js" // imports the array of requests 
-
+import { getRequests, deleteRequest, getClowns, saveCompletion, getCompletions, getOpenRequests } from "./dataAccess.js" // imports the array of requests 
 
 // row9 - added clowns 
 export const Requests = () => { // to retrieve the requests array from dataAccess.js
+    // let openRequests = getOpenRequests()
     const requests = getRequests() // set as a variable so we can use the data 
     const clowns = getClowns()
-    const completions = getCompletions
+    const completions = getCompletions()
+
     let convertRequestToListElement = (request) => { // create a string from the data incoporating list tags
         return `
-        <li id="cust-request--${request.id}" value=${request}>
-        ${request.description}
-        
-        <select class="clowns" id="clowns">
-    <option value="">Choose</option>
-    ${
-        clowns.map(
-            clown => {
-                return `<option value="${request.id}--${clown.id}">${clown.name}</option>`
+        <tr class="reservation" id="${request.id}">
+            <td>${request.parent}</td>
+            <td>${request.child}</td>
+            <td>${request.attendees}</td>
+            <td>${request.address}</td>
+            <td>${request.partyDate}</td>
+            <td>${request.duration}</td>
+            <td><button class="request__delete" id="request--${request.id}">Decline</button></td>
+            <td><select class="clowns" id="clowns">
+            <option value="">Choose</option>
+            ${
+                clowns.map(
+                    clown => {
+                        return `<option value="${request.id}--${clown.id}">${clown.name}</option>`
+                    }
+                ).join("")
             }
-        ).join("")
-    }
-</select>
-
-        <button class="request__delete"
-                id="request--${request.id}">
-            Delete
-        </button>
-        </li>
+        </select></td>
         `
     }
+     
     // creates the rest of the html incorporating .map(function that creates the list of strings).join("") within unordered list tags. We've incorporated the <li> tags in the function, so no need to include anything within the .join("")
     let html = `
-        <ul id="list_descriptions">
-            ${
-                requests.map(convertRequestToListElement).join("") //
-            }
-        </ul>
+        <table>
+            <thead>
+                <tr class = "tableHeaders">
+                    <th>Parent's Name</th>
+                    <th>Child's Name</th>
+                    <th>Attendees</th>
+                    <th>Address</th>
+                    <th>Party Date</th>
+                    <th>Duration</th>
+                    <th>Cancel</th>
+                    <th>Clown Assigned</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    ${
+                        requests.map(convertRequestToListElement).join("") //
+                    }
+                </tr>
+            </tbody>
+        </table>
     `
 
     return html
@@ -67,9 +84,10 @@ mainContainer.addEventListener(
                    3. date_created
             */
             const completion = {
-                requestId,
+                requestId,                
                 clownId,
                 date_created: Date.now()
+
              }
 
             
@@ -80,7 +98,7 @@ mainContainer.addEventListener(
              */
 
                 saveCompletion(completion)
-
+                // deleteRequest(requestId)
         }
     }
 )

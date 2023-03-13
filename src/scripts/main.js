@@ -1,5 +1,5 @@
 import { fetchRequests, fetchClowns, fetchCompletions } from "./dataAccess.js"
-import { PartyClown } from "./PartyClown"
+import { PartyClown } from "./PartyClown.js"
 
 // pushing HTML to the index.html page to the section with the container ID
 const mainContainer = document.querySelector("#container")

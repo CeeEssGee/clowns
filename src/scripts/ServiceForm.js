@@ -21,7 +21,7 @@ export const ServiceForm = () => {
         </div>
         <div class="field">
             <label class="label" for="partyDate">Date of the Party</label>
-            <input type="text" name="partyDate" class="input" />
+            <input type="date" name="partyDate" class="input" />
         </div>
         <div class="field">
             <label class="label" for="duration">Duration in Hours</label>
