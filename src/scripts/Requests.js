@@ -2,8 +2,8 @@ import { getRequests, deleteRequest, getClowns, saveCompletion, getCompletions, 
 
 // row9 - added clowns 
 export const Requests = () => { // to retrieve the requests array from dataAccess.js
-    // let openRequests = getOpenRequests()
-    const requests = getRequests() // set as a variable so we can use the data 
+    let requests = getOpenRequests()
+    // const requests = getRequests() // set as a variable so we can use the data 
     const clowns = getClowns()
     const completions = getCompletions()
 

@@ -111,6 +111,6 @@ export const getCompletions = () => {
 export const getOpenRequests = () => {
     let requests = getRequests()
     let completions = getCompletions()
-    let filtered = requests.filter(r => completions.find(c => parseInt(c.requestId) !== r.id))
+    let filtered = requests.filter(r => !completions.find(c => parseInt(c.requestId) === r.id))
     return filtered.map(item => ({ ...item }))
 }
